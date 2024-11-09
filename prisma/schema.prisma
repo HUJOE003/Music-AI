@@ -1,0 +1,41 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Assistant {
+  id          String @id @default(uuid())
+  assistantId String @unique
+}
+
+model UserThread {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  threadId  String
+  createdAt DateTime @default(now())
+}
+
+model ChallengePreferences {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  challengeId       String
+  sendNotifications Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model UserMeta {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  endpoint  String   @db.Text
+  p256dh    String   @db.Text
+  auth      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
